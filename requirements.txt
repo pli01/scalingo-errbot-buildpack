@@ -1,0 +1,7 @@
+errbot
+websockets
+asyncio
+boto3
+redis
+jsonpickle
+mattermostdriver

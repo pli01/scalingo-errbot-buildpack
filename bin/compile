@@ -1,0 +1,90 @@
+#!/usr/bin/env bash
+# bin/compile <build-dir> <cache-dir>
+
+# Debug, echo every command
+if [[ -n "$BUILDPACK_DEBUG" ]]; then
+  set -x
+fi
+
+# Fail immediately on non-zero exit code.
+set -e
+# Fail immediately on non-zero exit code within a pipeline.
+set -o pipefail
+# Fail on undeclared variables.
+set -u
+
+function indent() {
+  c='s/^/       /'
+  case $(uname) in
+    Darwin) sed -l "$c";;
+    *)      sed -u "$c";;
+  esac
+}
+
+BUILD_DIR=$1
+CACHE_DIR=$2
+ENV_DIR=$3
+basedir="$( cd -P "$( dirname "$0" )" && pwd )"
+BP_DIR=`cd $(dirname $0); cd ..; pwd`
+
+
+echo "## start here $basedir $BP_DIR $BUILD_DIR"
+cp $BP_DIR/.buildpacks $BUILD_DIR/.buildpacks
+cat $BP_DIR/Aptfile >> $BUILD_DIR/Aptfile
+cat $BP_DIR/requirements.txt >> $BUILD_DIR/requirements.txt
+cat $BP_DIR/runtime.txt >> $BUILD_DIR/runtime.txt
+
+# Use architecture of multi-buildpack to compose behavior.
+# https://github.com/Scalingo/multi-buildpack
+
+url=https://github.com/Scalingo/multi-buildpack
+branch=""
+dir=$(mktemp -t buildpackXXXXX)
+rm -rf $dir
+
+echo "=====> Downloading Buildpack: $url"
+
+if [[ "$url" =~ \.tgz$ ]] || [[ "$url" =~ \.tgz\? ]]; then
+  mkdir -p "$dir"
+  curl -s "$url" | tar xvz -C "$dir" >/dev/null 2>&1
+else
+  git clone $url $dir >/dev/null 2>&1
+fi
+cd $dir
+
+if [ "$branch" != "" ]; then
+  git checkout $branch >/dev/null 2>&1
+fi
+
+chmod -f +x $dir/bin/{detect,compile,release}
+
+framework=$($dir/bin/detect $1)
+
+if [ $? == 0 ]; then
+  echo "=====> Detected Framework: $framework"
+  $dir/bin/compile $BUILD_DIR $CACHE_DIR $ENV_DIR
+
+  if [ $? != 0 ]; then
+    exit 1
+  fi
+else
+  echo "scalingo-errbot-buildpack `.buildpacks` not defined. Exiting."
+  exit 1
+fi
+
+# install addons
+cd $BUILD_DIR
+$BP_DIR/bin/install_errbot_addons.sh
+
+# prepare conf
+echo "  Prepare conf"
+mkdir -p "$BUILD_DIR/bin"
+cp "$BP_DIR/scripts/run.sh" "$BUILD_DIR/bin/"
+
+[ -f "$BUILD_DIR/config.py" ] || cp "$BP_DIR/config.py" "$BUILD_DIR/config.py"
+
+for d in errbackends errstorage plugins; do
+  [ -d "$d" ] || mkdir $BUILD_DIR/$d
+done
+
+echo "   scalingo-errbot-buildpack"

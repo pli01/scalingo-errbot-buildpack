@@ -1,0 +1,36 @@
+version: '3.8'
+services:
+  redis:
+    image: redis:6.2.5-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./redis:/data
+  scalingo-errbot-buildpack:
+    build: .
+    image: local/scalingo-errbot-buildpack:latest
+    environment:
+      - ERRBOT_TEST=true
+      - BOT_LOG_LEVEL=${BOT_LOG_LEVEL:-INFO}
+      - ACCESS_CONTROLS=${ACCESS_CONTROLS:-}
+      - WAIT=${WAIT:-5}
+      - BACKEND=${BACKEND:-text}
+      - BOT_ADMINS=${BOT_ADMINS}
+      - STORAGE=${STORAGE:-Redis}
+      - REDIS_HOST=${REDIS_HOST:-redis}
+      - REDIS_PORT=${REDIS_PORT:-6379}
+      - PORT=${PORT:-3141}
+      - CORE_PLUGINS=${CORE_PLUGINS}
+      - DIVERT_TO_PRIVATE=${DIVERT_TO_PRIVATE}
+      - HIDE_RESTRICTED_ACCESS=${HIDE_RESTRICTED_ACCESS}
+      - HIDE_RESTRICTED_COMMANDS=${HIDE_RESTRICTED_COMMANDS}
+    ports:
+      - "3141:3141"
+    volumes:
+      - ./config.py:/app/config.py
+      - ./plugins:/app/plugins
+      - ./srv:/srv
+    depends_on:
+      - redis
+    links:
+      - redis

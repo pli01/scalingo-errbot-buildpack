@@ -1,0 +1,11 @@
+.env
+.idea/errbot.iml
+.idea/misc.xml
+.idea/modules.xml
+.idea/workspace.xml
+*.log
+.cache/
+.coverage
+__pycache__/
+*.pyc
+htmlcov/
