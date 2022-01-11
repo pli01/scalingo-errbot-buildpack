@@ -2,6 +2,8 @@
 
 This buildpack aims at deploying an errbot instance on the Scalingo PaaS platform.
 
+[![Deploy to Scalingo](https://cdn.scalingo.com/deploy/button.svg)](https://my.scalingo.com/deploy?source=https://github.com/pli01/scalingo-errbot-buildpack/)
+
 # Errbot
 
 ![errbot](https://errbot.readthedocs.io/en/latest/_static/errbot.png)
