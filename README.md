@@ -2,7 +2,7 @@
 
 This buildpack aims at deploying an errbot instance on the Scalingo PaaS platform.
 
-[![Deploy to Scalingo](https://cdn.scalingo.com/deploy/button.svg)](https://my.scalingo.com/deploy?source=https://github.com/pli01/scalingo-errbot-buildpack/)
+[![Deploy to Scalingo](https://cdn.scalingo.com/deploy/button.svg)](https://my.scalingo.com/deploy?source=https://github.com/pli01/scalingo-errbot-buildpack#main)
 
 # Errbot
 
@@ -41,17 +41,12 @@ Minimal Pre req:
 - add the bot account to a mattermost team (`BOT_TEAM`)
 - add the bot account on a channel in a team (`~my-bot-channel`)
 - define ad bot admins comma separated list: (`BOT_ADMINS`)
-- a redis host: (`REDIS_HOST`)
-- a redis password: (`REDIS_PASSWORD`)
-- a redis port: (`REDIS_PORT`)
+- a redis url: (`REDIS_URL`)
 - Optionnal: customize `ACCESS_CONTROLS`
 
 ```bash
 STORAGE=Redis
-# replace with the REDIS_URL information part
-REDIS_HOST=redis....scalingo.com
-REDIS_PASSWORD=CHANGEME
-REDIS_PORT=6379
+REDIS_URL=redis....scalingo.com
 # Backend
 BACKEND=Mattermost
 BOT_PORT=443
