@@ -1,0 +1,26 @@
+{
+  "name": "Errbot App",
+  "description": "ChatBot errbot",
+  "keywords": [
+    "chatops", "errbot"
+  ],
+  "env": {
+    "STORAGE": {
+      "value": "Text",
+      "required": true
+   },
+   "BOT_ADMINS": {
+      "value": "@usertest",
+      "required": true
+    }
+  },
+  "addons": [
+    "redis:redis-sandbox"
+  ],
+  "formation": {
+    "web": {
+      "amount": 1,
+      "size": "S"
+    }
+  }
+}
