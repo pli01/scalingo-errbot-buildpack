@@ -17,8 +17,7 @@ services:
       - BACKEND=${BACKEND:-text}
       - BOT_ADMINS=${BOT_ADMINS}
       - STORAGE=${STORAGE:-Redis}
-      - REDIS_HOST=${REDIS_HOST:-redis}
-      - REDIS_PORT=${REDIS_PORT:-6379}
+      - REDIS_URL=${REDIS_URL:-redis://redis:6379}
       - PORT=${PORT:-3141}
       - CORE_PLUGINS=${CORE_PLUGINS}
       - DIVERT_TO_PRIVATE=${DIVERT_TO_PRIVATE}

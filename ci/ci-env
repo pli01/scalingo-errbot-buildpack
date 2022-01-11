@@ -1,9 +1,7 @@
 BACKEND=Text
 BOT_ADMINS=@usertest
 STORAGE=Redis
-REDIS_HOST=redis
-REDIS_PASSWORD=
-REDIS_PORT=6379
+REDIS_URL=redis://redis:6379
 CORE_PLUGINS=Webserver,Help,ACLs,Health,Utils,TextCmds,VersionChecker,CommandNotFoundFilter
 DIVERT_TO_PRIVATE=help,about,status,health,utils
 HIDE_RESTRICTED_ACCESS=True

@@ -19,6 +19,7 @@
 import os
 import logging
 import ast
+from urllib.parse import urlparse
 
 ##########################################################################
 # Core Err configuration                                                 #
@@ -67,13 +68,17 @@ BOT_EXTRA_STORAGE_PLUGINS_DIR = os.environ.get(
 STORAGE = os.environ.get('STORAGE', 'Shelf')
 
 if STORAGE == 'Redis':
-	STORAGE_CONFIG = {
-		'host': os.environ.get('REDIS_HOST', 'localhost'),
-		'port': os.environ.get('REDIS_PORT', 6379),
-		'db': os.environ.get('REDIS_DB', 0),
-		'password': os.environ.get('REDIS_PASSWORD', ''),
-	}
+    url = urlparse( os.environ.get('REDIS_URL','redis://redis:6379'))
+    redis_db = 0
+    if url.path:
+        redis_db = url.path
 
+    STORAGE_CONFIG = {
+        'host': url.hostname,
+        'port': url.port,
+        'password': url.password,
+        'db': redis_db,
+    }
 
 # If you want only a subset of the core plugins that are bundled with errbot, you can specify them here.
 # CORE_PLUGINS = None # This is default, all core plugins.
