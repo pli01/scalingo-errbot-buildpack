@@ -46,7 +46,7 @@ Minimal Pre req:
 
 ```bash
 STORAGE=Redis
-REDIS_URL=redis....scalingo.com
+REDIS_URL=redis://:PWD@redisXXXX.scalingo.com
 # Backend
 BACKEND=Mattermost
 BOT_PORT=443
