@@ -343,6 +343,15 @@ DIVERT_TO_PRIVATE = tuple(
     os.environ.get('DIVERT_TO_PRIVATE', '').split(','),
 )
 
+# A list of commands which should be responded to in a thread if the backend supports it.
+# For example:
+# DIVERT_TO_THREAD = ("help", "about", "status")
+# If all commands are desired, use the specical case "ALL_COMMANDS"
+#DIVERT_TO_THREAD = ()
+DIVERT_TO_THREAD = tuple(
+    os.environ.get('DIVERT_TO_THREAD', '').split(','),
+)
+
 # Chat relay
 # Can be used to relay one to one message from specific users to the bot
 # to MUCs. This can be useful with XMPP notifiers like for example  the
