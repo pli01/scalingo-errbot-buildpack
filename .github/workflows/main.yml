@@ -3,15 +3,17 @@ name: Test
 # Controls when the action will run. Triggers the workflow on push on branch except main
 # or pull request events but only for the main branch
 on:
-  push:
+  pull_request:
     branches: [ main ]
+  push:
+    branches-ignore: [ main ]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
   build-and-test:
     # The type of runner that the job will run on
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -21,12 +23,6 @@ jobs:
         run: |
            sudo apt-get install -qy make apt-transport-https ca-certificates software-properties-common gawk jq parallel curl language-pack-fr
            uname -a
-      - name: install docker-ce before build
-        run: |
-           curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-           sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-           sudo apt-get -qy update
-           sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
            type -a docker-compose && docker-compose version
            docker version
            docker info
