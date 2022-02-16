@@ -8,8 +8,10 @@ set -euo pipefail
 echo "# $(basename $0)"
 
 #err_backend_mattermost_version="tags/2.1.0"
-err_backend_mattermost_version="heads/master"
-err_backend_mattermost="https://github.com/errbotio/err-backend-mattermost/archive/refs/${err_backend_mattermost_version}.tar.gz"
+#err_backend_mattermost_version="heads/master"
+#err_backend_mattermost="https://github.com/errbotio/err-backend-mattermost/archive/refs/${err_backend_mattermost_version}.tar.gz"
+err_backend_mattermost_version="heads/debug"
+err_backend_mattermost="https://github.com/pli01/err-backend-mattermost/archive/refs/${err_backend_mattermost_version}.tar.gz"
 err_backend_mattermost_dir="err-backend-mattermost"
 err_storage_redis_version="heads/master"
 err_storage_redis="https://github.com/errbotio/err-storage-redis/archive/refs/${err_storage_redis_version}.tar.gz"
