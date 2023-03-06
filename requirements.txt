@@ -1,6 +1,6 @@
 errbot==6.1.9
 asyncio==3.4.3
-boto3==1.20.33
+boto3==1.26.84
 redis==4.1.0
 jsonpickle==2.0.0
 mattermostdriver==7.3.2
