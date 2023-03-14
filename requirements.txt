@@ -5,4 +5,4 @@ redis==4.1.0
 jsonpickle==2.0.0
 mattermostdriver==7.3.2
 dulwich==0.20.31
-openssl>22.1.0
+pyopenssl>22.1.0
